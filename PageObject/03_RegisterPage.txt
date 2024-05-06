@@ -1,0 +1,63 @@
+#******************** Settings ************************
+
+*** Settings ***
+
+Documentation: Testing the registration functionality of GitLab users.
+The scenario includes validating both valid and invalid input data and assessing the system's resilience against various types of input errors.
+
+Pre Condition: The user is on the GitLab registration page (https://gitlab.com/users/sign_up).
+Post Condition: The user is either successfully registered or receives an appropriate error message.
+Tags: Registration, Valid Input, Invalid Input
+
+#******************* Common Variables ********************
+
+*** Variables ***
+
+LoginUrl = https://gitlab.com/users/sign_up
+ValidUsername = test_user
+ValidPassword = SecurePassword123!
+InvalidEmail = test#email.com
+EmptyPassword = 
+RepeatedUsername = test_user
+
+#******************** Test Cases *************************
+
+*** Test Case ***
+
+# Test Case: Register user with valid credentials
+- Navigate to {LoginUrl}
+- Input Username {ValidUsername}
+- Input Password {ValidPassword}
+- Submit Registration Form
+- Verify Registration Success Message "Registration successful!"
+
+# Test Case: Register user with the same username
+- Navigate to {LoginUrl}
+- Input Username {RepeatedUsername}
+- Input Password {ValidPassword}
+- Submit Registration Form
+- Verify Error Message "Username already taken"
+
+# Test Case: Register user with empty password
+- Navigate to ${LoginUrl}
+- Input Username {ValidUsername}
+- Input Password {EmptyPassword}
+- Submit Registration Form
+- Verify Error Message "Password field is required"
+
+# Test Case: Register user with invalid email
+- Navigate to {LoginUrl}
+- Input Username {ValidUsername}
+- Input Password {ValidPassword}
+- Input Email {InvalidEmail}
+- Submit Registration Form
+- Verify Error Message "Invalid email format"
+
+# Test Case: Register user without completing recaptcha
+- Navigate to {LoginUrl}
+- Input Username {ValidUsername}
+- Input Password {ValidPassword}
+- Attempt to Submit Registration Form without completing recaptcha
+- Verify Error Message "Complete the recaptcha"
+
+

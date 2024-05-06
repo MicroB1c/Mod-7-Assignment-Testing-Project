@@ -1,0 +1,48 @@
+#******************** Settings ************************
+
+*** Settings ***
+
+Documentation: Testing issue management functionality within projects on GitLab. This includes creating, updating, and deleting issues, ensuring that each operation functions as expected.
+
+Pre Condition: A project must already be created and the user should be logged into GitLab and have access to the project's issue page.
+Post Condition: Cleanup any test issues created unless they are needed for further testing.
+Tags: Issue Management, CRUD
+
+#******************* Common Variables ********************
+
+*** Variables ***
+
+Issue creation URL: https://gitlab.com/dashboard/issues?sort=created_date&state=opened&assignee_username[]=MicroB1c
+Initial Issue Title: First Issue
+Updated Issue Title: Updated First Issue
+Second Issue Title: Second Issue
+
+#******************** Test Cases *************************
+
+*** Test Case ***
+
+# Positive Test Cases
+
+# Test Case: Create an issue
+- Navigate to the issue creation URL within the project
+- Enter First Issue' as the issue title
+- Submit the issue creation form
+- Verify that a new issue with the title 'First Issue' appears in the issue list
+
+# Test Case: Update the name of an issue
+- Go to the list of issues and select the issue titled 'First Issue'
+- Edit the issue and change the title to 'Updated First Issue'
+- Submit the update
+- Check that the issue's title has updated to 'Updated First Issue' in the issue list
+
+# Test Case: Create a second issue with the previous updated title
+- Navigate back to the issue creation URL
+- Enter 'Second Issue' as the title for the new issue using the title of the updated first issue
+- Submit the issue creation form
+- Confirm that a new issue titled 'Second Issue' appears in the issue list
+
+# Test Case: Delete the first issue
+- Find the issue titled 'Updated First Issue' in the list
+- Select the option to delete this issue
+- Confirm the deletion
+- Ensure that the issue no longer appears in the list

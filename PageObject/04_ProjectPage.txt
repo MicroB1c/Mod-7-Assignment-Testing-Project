@@ -1,0 +1,60 @@
+#******************** Settings ************************
+
+*** Settings ***
+
+Documentation: This section tests the Project functionalities on GitLab focusing on the creation, reading, updating, and deleting of projects. 
+These scenarios are designed to validate the integrity and functionality of project management operations on the platform.
+
+Pre Condition: The user is logged into GitLab and has navigated to the project creation page.
+Post Condition: Any projects created or modified during the testing should be cleaned up unless they are meant to be kept for further tests.
+Tags: Project Management, CRUD Operations
+
+#******************* Common Variables ********************
+
+*** Variables ***
+
+The URL to create a project: https://gitlab.com/projects/new
+Template project name: MyTemplateProject
+Updated project name: MyUpdatedProject
+Existing project name that is already in use: ExistingProject
+
+#******************** Test Cases *************************
+
+*** Test Case ***
+
+# Positive Test Cases
+
+# Test Case: Create a blank project
+- Navigate to the project creation URL
+- Choose the option to create a blank project
+- Enter 'First project' as the project name
+- Submit the project creation form
+- Check for a confirmation message stating "Project 'First project' was successfully created"
+
+# Test Case: Create a project from a template
+- Go to the project creation URL
+- Choose to create a project from a template
+- Select the template named 'MyTemplateProject' from the list
+- Submit the project creation form
+- Look for a confirmation message stating "Project 'MyTemplateProject' was successfully created"
+
+# Test Case: Update the name of a template project
+- Access the settings of the project named 'MyTemplateProject'
+- Change the project name to 'MyUpdatedProject'
+- Submit the update
+- Confirm that a message stating "Project name updated to 'MyUpdatedProject'" appears
+
+# Test Case: Delete the updated project
+- Go to the settings of the project named 'MyUpdatedProject'
+- Choose the delete project option
+- Confirm the deletion action
+- Ensure that the project is no longer listed or accessible
+
+# Negative Test Cases
+
+# Test Case: Attempt to create a blank project with a name that is already in use
+- Navigate to the project creation URL
+- Select to create a blank project
+- Use the name 'ExistingProject' which is already taken
+- Submit the project creation form
+- Expect to

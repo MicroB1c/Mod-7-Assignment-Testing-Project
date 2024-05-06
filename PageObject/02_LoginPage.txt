@@ -1,0 +1,62 @@
+#******************** Settings ************************
+
+*** Settings ***
+
+Documentation: This section tests the login functionality on GitLab, ensuring that users can log in with valid credentials and that the system properly handles invalid login attempts.
+
+Pre Condition: The browser is open and the user is not logged in.
+Post Condition: All browser windows should be closed after testing to ensure a clean state.
+Tags: Login, Credential Verification, Error Handling
+
+#******************* Common Variables ********************
+
+*** Variables ***
+
+The URL to the login page: https://gitlab.com/users/sign_in
+Valid Username: ExampleUser
+Valid Password: ExamplePassword123
+Invalid Username: WrongUser
+Invalid Password: WrongPassword
+Blank Entry: (this is just an empty space to represent no input)
+
+#******************** Test Cases *************************
+
+*** Test Cases ***
+
+# Positive Tests
+
+# Test Case: Log in with valid credentials
+- Go to the login page URL
+- Enter the username 'User'
+- Enter the password 'Password123'
+- Click on the submit button to log in
+- Verify that the next page contains a welcome message, confirming successful login
+
+# Negative Tests
+
+# Test Case: Log in with invalid credentials
+- Navigate to the login page URL
+- Input the username 'User'
+- Input the incorrect password 'WrongPassword'
+- Click on the submit button to log in
+- Check that the page shows an error message stating "Invalid login or password"
+
+# Test Case: Error message should appear for login attempts with empty fields
+- Navigate to the login page URL
+- Leave the username and password fields empty
+- Try to submit the login form
+- Ensure that an error message "This field is required" appears
+
+# Test Case: Error message for invalid login with a valid username and an invalid password
+- Go to the login page URL
+- Enter the username 'User'
+- Enter the incorrect password 'WrongPassword'
+- Attempt to log in
+- Verify that an error message "Invalid login or password" is displayed
+
+# Test Case: Error message for invalid login with an invalid username and a valid password
+- Go to the login page URL
+- Input the username 'WrongUser'
+- Input the password 'Password123'
+- Try to log in
+- Check that the error message "Invalid login or password" appears
